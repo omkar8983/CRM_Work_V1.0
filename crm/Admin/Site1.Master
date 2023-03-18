@@ -1,0 +1,163 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="CRM.Admin.Site1" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <link rel="stylesheet" href="css/nav.css" />
+      
+   <%-- <style>
+        .select2-selection__rendered {
+            display: none !important;
+        }
+    </style>--%>
+</head>
+<body>
+    <div class="row mt-4 mainRow mainWrap mr-0">
+        <div class="col-md-5 user-text">
+            <h2 id="pagename"></h2>
+        </div>
+        <div class="col-md-7">
+            <div class="search-container">
+                  <i id="bell-icon" class="fa-solid fa-bell"></i>
+                <div class="dropdown">
+                    <img src="#" id="userimg" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" alt="" />
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item">
+                            <i class="ri-user-3-fill"></i><span id="uname"></span></a><br />
+                            <a class="dropdown-item" href="logout.aspx"><i class="ri-logout-circle-r-fill"></i>Logout</a>
+                        </li>
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+  <%--  <form id="form1" runat="server">--%>
+        <div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+
+            <div classname="container">
+                <div class="row">
+                    <div class="col-md-4 navigation">
+
+                        <div class="logo_sec">
+                            <img src="images/logo.svg" alt="" />
+                        </div>
+                        <ul id="nav">
+                            <li></li>
+
+                            <%--<li id="emplist">
+                                <a href="/admin/user-list.aspx"><i class="ri-file-list-3-fill"></i>Employee List</a>
+                            </li>
+                            <li id="areport">
+                                <a href="/admin/Attendance_Report.aspx"><i class="ri-file-chart-fill"></i>Attendance Report</a>
+                            </li>
+                            <li id="upload">
+                                <a href="/admin/ImportData.aspx"><i class="ri-upload-cloud-fill"></i>Upload Employee </a>
+                            </li>--%>
+                          <li id="cmaster">
+                                <a href="/SalesCRM/admin/CompanyMaster.aspx"><i class="ri-database-2-fill"></i>Company Master</a>
+                            </li>
+                              <li id="clist">
+                                <a href="/SalesCRM/admin/Assignedcompanies.aspx"><i class="ri-building-fill"></i>Assigned Company</a>
+                            </li>
+                            <li id="plist">
+                                <a href="/SalesCRM/admin/POC_List.aspx"><i class="ri-play-list-add-line"></i>POC List</a>
+                            </li>
+                              <li id="dlist">
+                                <a href="/SalesCRM/admin/daily_updates.aspx"><i class="ri-file-add-line"></i>Daily Updates</a>
+                            </li>
+                          
+                              <li id="mlist">
+                                <a href="/SalesCRM/admin/MOM.aspx"><i class="ri-file-list-3-line"></i> MOM</a>
+                            </li> 
+                            <li id="todo">
+                                <a href="/SalesCRM//admin/TODO_List.aspx"><i class="ri-calendar-todo-line"></i> TO-DO List</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+  <%--  </form>--%>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
+
+    <script>
+        $(function () {
+            var current = location.pathname;
+            $('#nav li a').each(function () {
+                var $this = $(this);
+                // if the current path is like this link, make it active
+                if ($this.attr('href').indexOf(current) !== -1) {
+                    $this.addClass('active1');
+                }
+            })
+        })
+        function getCookies() {
+            var cookieMap = {};
+            let coo = document.cookie.split(';');
+            for (var value of coo.values()) {
+
+                if (value.includes('SALES_CRM=')) {
+                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                    cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
+                    return cookieMap;
+
+                }
+            }
+
+            if (coo.values() === 'l') {
+                alert('1');
+            }
+
+        }
+
+        var pimg = getCookies().PROFILE_IMG;
+        if (pimg == "" || pimg == null) {
+            $("#userimg").attr("src", "images/user.svg");
+        }
+        else {
+            $("#userimg").attr("src", 'https://crm.24fd.com/Admin/Documents/' + pimg);
+        }
+        var role = getCookies().DESIGNATION_ID;
+        var uname = getCookies().NAME;
+        var uname = getCookies().NAME;
+        var company = $("#clist");
+        var cmaster = $("#cmaster");
+        var emplist = $("#emplist");
+        var areport = $("#areport");
+        var upload = $("#upload");
+        var plist = $("#plist");
+        var mlist = $("#mlist");
+
+
+        if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+            $(emplist).hide();
+            $(cmaster).hide();
+            $(areport).hide();
+            $(upload).hide();
+            $(company).show();
+            $(plist).show();
+        }
+        else {
+            $(company).hide();
+        }
+        $("#uname").text(uname)
+      
+    </script>
+</body>
+</html>
