@@ -56,7 +56,7 @@ namespace CRM
                                 string PROFILE_IMG = dt.Tables[1].Rows[0]["PROFILE_IMG"].ToString();
 
 
-                                HttpCookie cookie = new HttpCookie("SALES_CRM");
+                                HttpCookie cookie = new HttpCookie("SALESCRM");
                                 cookie.Values["USER_GUID"] = USER_GUID;
                                 cookie.Values["EMP_CODE"] = EMP_CODE;
                                 cookie.Values["NAME"] = NAME;
