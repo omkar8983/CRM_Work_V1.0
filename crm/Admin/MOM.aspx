@@ -411,8 +411,8 @@
             var cookieMap = {};
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
                     return cookieMap;
                 }
@@ -556,12 +556,22 @@
             $("#contactNo-" + id).val(mnumber);
         }
 
+        var urlParams = new URLSearchParams(window.location.search);
+        var useridu = urlParams.get('uid');
+        var dstatus = urlParams.get('dstatus');
+
         var role = getCookies().DESIGNATION_ID;
 
-        if (role == "28B18ABB-2096-ED11-82DD-02CDC8B1CF2E") {
+        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" && dstatus != '1') {
             obj1 =
             {
                 "CREATED_BY": "ALL"
+            }
+        }
+         if (dstatus == '1') {
+            obj1 =
+            {
+                "CREATED_BY": useridu
             }
         }
 

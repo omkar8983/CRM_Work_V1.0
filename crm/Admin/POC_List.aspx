@@ -598,8 +598,8 @@
             var cookieMap = {};
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
                     return cookieMap;
 
@@ -883,14 +883,24 @@
                 $('.checkboxg').prop('checked', false);
             });
 
+            var urlParams = new URLSearchParams(window.location.search);
+            var userid = urlParams.get('uid');
+            var dstatus = urlParams.get('dstatus');
+
             var role = getCookies().DESIGNATION_ID;
-           
             var uid = getCookies().USER_GUID;
             if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
                 urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
                 obj = {
                     "C_GUID": "ALL",
                     "USER_GUID": uid
+                }
+            }
+            else if (dstatus == '1') {
+                urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
+                obj = {
+                    "C_GUID": "ALL",
+                    "USER_GUID": userid
                 }
             }
 
@@ -989,6 +999,7 @@
                             {
                                 "data": null,
                                 "sClass": "skip-click",
+                                //"sDefaultContent": '<div class="AddTask  mb-2">Add Task</div> <div class="viewpoc ">View POC</div>'
                                 "sDefaultContent": '<div class="AddTask  mb-2">Add Task</div> <div class="viewpoc ">View POC</div>'
                             }
                         ],

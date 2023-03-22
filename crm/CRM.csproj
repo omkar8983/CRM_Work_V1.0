@@ -145,16 +145,22 @@
     <Content Include="Admin\images\user3.png" />
     <Content Include="Admin\images\USerDB.svg" />
     <Content Include="Admin\js\clockpicker.js" />
+    <Content Include="Admin\js\company.js" />
+    <Content Include="Admin\js\dailyUpdate.js" />
     <Content Include="Admin\js\filesave.js" />
     <Content Include="Admin\js\index.js" />
     <Content Include="Admin\js\main.js" />
     <Content Include="Admin\js\mdtimepicker.js" />
+    <Content Include="Admin\js\mom.js" />
+    <Content Include="Admin\js\poc.js" />
+    <Content Include="Admin\js\todo.js" />
     <Content Include="Admin\js\yearpicker.js" />
     <Content Include="Admin\logout.aspx" />
     <Content Include="Admin\MOM.aspx" />
     <Content Include="Admin\momDetails.aspx" />
     <Content Include="Admin\pocDetails.aspx" />
     <Content Include="Admin\POC_List.aspx" />
+    <Content Include="Admin\SalesWork.aspx" />
     <Content Include="Admin\taskDetails.aspx" />
     <Content Include="Admin\TODO_List.aspx" />
     <Content Include="Admin\user-list.aspx" />
@@ -300,6 +306,13 @@
     </Compile>
     <Compile Include="Admin\POC_List.aspx.designer.cs">
       <DependentUpon>POC_List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\SalesWork.aspx.cs">
+      <DependentUpon>SalesWork.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\SalesWork.aspx.designer.cs">
+      <DependentUpon>SalesWork.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Site1.Master.cs">
       <DependentUpon>Site1.Master</DependentUpon>

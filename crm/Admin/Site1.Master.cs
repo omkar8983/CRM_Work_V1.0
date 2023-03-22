@@ -11,7 +11,7 @@ namespace CRM.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Cookies["SALES_CRM"] == null)
+            if (Request.Cookies["SALESCRM"] == null)
             {
                 Response.Redirect("~/login.aspx");
             }
