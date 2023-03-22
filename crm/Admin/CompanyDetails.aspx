@@ -71,6 +71,13 @@
             margin-right: unset;
             margin-bottom: 8px;
         }
+       .contrycode{
+            width:50px!important;
+            position:absolute;
+        }
+        #txtnumber{
+            padding-left:60px;
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -225,6 +232,9 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="">Contact </label>
+                                <input"/>
+                                <select  type="text" id="country-ext"  class="form-control contrycode" >
+                                </select>
                                 <input type="text" name="number" id="txtnumber" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" maxlength="10" minlength="10" placeholder="Contact">
                             </div>
                             </div>
@@ -378,13 +388,14 @@
             }
         });
 
+
         function getCookies() {
             var cookieMap = {};
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
 
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });
                     return cookieMap;
 
@@ -405,7 +416,17 @@
             form_id1 += 1;
             console.log(form_id1);
         });
+        function getcountrycode() {
+            $.getJSON("counrty.json", function (json) {
+                $.each(json, function (index, json) {
+                    $('.contrycode').append($('<option>').text(json.dial_code + " " + json.name).attr('value', json.dial_code));
+                });
+
+            });
+        }
         $(document).ready(function () {
+            getcountrycode();
+
             //add new input form
             var max_fields = 25;
             var wrapper = $(".input_fields_wrap");
@@ -415,8 +436,9 @@
                 e.preventDefault();
                 var total_fields = wrapper[0].childNodes.length;
                 if (total_fields < max_fields) {
-                    $(wrapper).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0"><input type="text" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
+                    $(wrapper).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0"> <select  type="number" id="country-ext' + form_id + '" "  class="form-control contrycode" > </select > <input type="text" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
                 }
+                getcountrycode();
             });
 
             $(document).on('click', '.removeRow', function (e) {
@@ -436,7 +458,7 @@
                 e.preventDefault();
                 var total_fields1 = wrapper1[0].childNodes.length;
                 if (total_fields1 < max_fields1) {
-                    $(wrapper1).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id1 + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0"><input type="text" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id1 + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
+                    $(wrapper1).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id1 + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0">  <select  type="number" id="country-ext' + form_id + '" "  class="form-control contrycode" > </select > <input type="text" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id1 + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
                 }
             });
 
@@ -1018,6 +1040,7 @@
 
             var emailval = '';
             var numberval = '';
+
             $('.inpuWrap input[type =email]').each(function (index) {
                 if (index != 0) {
                     emailval += ",";
@@ -1031,6 +1054,7 @@
                 }
                 numberval += $(this).val();
             });
+
 
             var nameu = $("#nameup").val();
             var emailu = $("#emailup").val();
@@ -1177,6 +1201,7 @@
 
             var emailval = '';
             var numberval = '';
+            var countryval = '';
             $('.inpuWrap input[type =email]').each(function (index) {
                 if (index != 0) {
                     emailval += ",";
@@ -1190,13 +1215,23 @@
                 }
                 numberval += $(this).val();
             });
-         
-            var name = $("#txtname").val();
+
+
+            $('.inpuWrap select').each(function (index) {
+                if (index != 0) {
+                    countryval += ",";
+                }
+                countryval += $(this).val();
+            });
+
+            var name = $("#txtfname").val() + " " + $("#txtlname").val();
             var email = $("#txtemail").val();
-            var number = $("#txtnumber").val();
+            var number = $("#country-ext").val() + $("#txtnumber").val() ;
             var desig = $("#txtdesig").val();
             var dept = $("#txtdept").val();
             var Linkedin = $("#Linkedin").val();
+
+            alert(countryval + numberval);
 
             if (number != "" || email != "") {
                 var dataobj = {
@@ -1207,7 +1242,7 @@
                     "DESIGNATION": desig,
                     "DEPARTMENT": dept,
                     "ADDEDBY": getCookies().USER_GUID,
-                    "CONTACT1": numberval,
+                    "CONTACT1": countryval + " "+ numberval,
                     "EMAIL1": emailval,
                     "Linkedin": Linkedin
                 };

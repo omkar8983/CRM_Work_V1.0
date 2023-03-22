@@ -103,8 +103,8 @@
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
 
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });
                     return cookieMap;
 

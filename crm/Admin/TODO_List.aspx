@@ -260,8 +260,8 @@
           var cookieMap = {};
           let coo = document.cookie.split(';');
           for (var value of coo.values()) {
-              if (value.includes('SALES_CRM=')) {
-                  var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+              if (value.includes('SALESCRM=')) {
+                  var cookie = value.trim().replace('SALESCRM=', '').split('&');
                   cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
                   return cookieMap;
               }
@@ -487,9 +487,18 @@
           }
       });
 
+        var urlParams = new URLSearchParams(window.location.search);
+        var useridu = urlParams.get('uid');
+        var dstatus = urlParams.get('dstatus');
 
-      function gettodo(tbldate) {
-          var obj = { "USER_GUID": uid, "STATUS": "PENDING", "DATE_FILTER": tbldate }
+        function gettodo(tbldate) {
+            if (dstatus == '1') {
+                var obj = { "USER_GUID": useridu, "STATUS": "PENDING", "DATE_FILTER": tbldate }
+            }
+            else {
+                var obj = { "USER_GUID": uid, "STATUS": "PENDING", "DATE_FILTER": tbldate }
+            }
+         
           $.ajax({
               type: 'POST',
               url: apiurl + '/DailyActivity/get_daily_activity',
@@ -525,7 +534,15 @@
 
       function tblfilter(datefilter) {
           urlsales = apiurl + '/DailyActivity/get_daily_activity';
-          var obj = { "USER_GUID": uid, "STATUS": "PENDING", "DATE_FILTER": datefilter }
+
+         
+          if (dstatus == '1') {
+              var obj = { "USER_GUID": useridu, "STATUS": "PENDING", "DATE_FILTER": datefilter }
+          }
+          else {
+              var obj = { "USER_GUID": uid, "STATUS": "PENDING", "DATE_FILTER": datefilter }
+          }
+        
 
           $.ajax({
               type: 'POST',

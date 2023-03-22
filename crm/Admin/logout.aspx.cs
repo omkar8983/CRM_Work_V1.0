@@ -11,9 +11,9 @@ namespace CRM.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Cookies["SALES_CRM"] != null)
+            if (Request.Cookies["SALESCRM"] != null)
             {
-                HttpCookie myCookie = new HttpCookie("SALES_CRM");
+                HttpCookie myCookie = new HttpCookie("SALESCRM");
                 DateTime now = DateTime.Now;
 
                 // Set the cookie value.

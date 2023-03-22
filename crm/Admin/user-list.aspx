@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Site1.Master" AutoEventWireup="true" CodeBehind="user-list.aspx.cs" Inherits="CRM.Admin.user_list" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
     <style>
         .select2-container {
@@ -31,6 +33,28 @@
             border-radius: 20px;
             padding: 10px 10px !important;
         }
+        .mainWrap{
+            overflow-x:scroll;
+            overflow-y:hidden;
+        }
+        @media (max-width:600px) {
+            .user-btn {
+                width: 200px;
+            }
+
+                .user-btn a {
+                    background-color: #82C43C !important;
+                    padding: 7px 4px !important;
+                    border-radius: 12px !important;
+                    color: white !important;
+                    font-size: 11px !important;
+                    margin-left: 1em !important;
+                }
+
+            .list-name h5 {
+                font-size: 13px;
+            }
+        }
     </style>
 </asp:Content>
 
@@ -41,6 +65,7 @@
 
             <div class="col-md-3">
                 <div class="table-head">
+                     
                     <h5>All Employees</h5>
                 </div>
             </div>
@@ -53,10 +78,7 @@
                     <div class="list-name">
                         <i id="filter-icon" class="fa-solid fa-arrow-down-wide-short"></i>
                     </div>
-                    <div class="user-btn">
-                        <a class="user-text" data-bs-toggle="modal" data-bs-target="#AddUser"><i class="fa-solid fa-plus"></i>
-                            Add Employee</a>
-                    </div>
+                    
                 </div>
             </div>
             <div class="col-md-12 mt-4">
@@ -87,7 +109,7 @@
     </div>
 
         <!-- Modal -->
-    <div class="modal fade" id="AddUser" tabindex="-1" aria-labelledby="AddUserLabel" aria-hidden="true">
+    <div class="modal fade" id="AddUser"  aria-labelledby="AddUserLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,8 +133,12 @@
                                 <input type="text" class="form-control" id="l-name" placeholder="Last-Name" required>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="">Employee Code </label>
+                                <label for="">Employee Biometric Code </label>
                                 <input type="text" class="form-control" id="empCode" placeholder="Employee Code" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="">Employee ID </label>
+                                <input type="text" class="form-control" id="empid" placeholder="Employee Code" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="">Gender </label>
@@ -192,6 +218,14 @@
                                 <i class="attachment fa-solid fa-paperclip"></i>
                                 <input type="file" accept=".jpg, .jpeg, .png" class="form-control" id="profile-img" placeholder="Add Profile picture" required>
                             </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="">In Probation</label>
+                                <select name="probation" id="probation" class="form-control">
+                                    <option value="">select</option>
+                                    <option value="true" selected>Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
                             <div class="col-md-12 mt-3 text-left">
                                 <input type="submit" class="btn btn-primary btnSave" />
                             </div>
@@ -205,15 +239,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.all.min.js"></script>
+   
     <script src="js/main.js"></script>
+
+   
     <script>
         function getCookies() {
             var cookieMap = {};
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
 
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
                     return cookieMap;
 
@@ -225,6 +267,19 @@
             }
 
         }
+
+        var cur_role;
+        var cooks = getCookies();
+        var roles = JSON.parse('{  "6D4FCD9D-A8EB-EC11-82D5-02CDC8B1CF2E": "Admin",  "C2764AAD-A8EB-EC11-82D5-02CDC8B1CF2E": "Employee",  "29C4A8B9-A8EB-EC11-82D5-02CDC8B1CF2E": "Director",  "BB7179C9-A8EB-EC11-82D5-02CDC8B1CF2E": "Manager",  "4CEB5CD1-A8EB-EC11-82D5-02CDC8B1CF2E": "HOD",  "1EAF5BD8-A8EB-EC11-82D5-02CDC8B1CF2E": "Team Lead",  "0CD92DFD-A8EB-EC11-82D5-02CDC8B1CF2E": "Super Admin", "40CF5DD6-9E22-ED11-82D6-02CDC8B1CF2E": "Trainee"}');
+        var cc = cooks['ROLE_ID'];
+        for (n in roles) {
+            if (n.toUpperCase() == cc.toUpperCase()) {
+                cur_role = roles[n];// value where key is n
+                localStorage.setItem("myrole", cur_role);
+            }
+        }
+
+
 
         $("#filter-icon").click(function () {
             $(".filterwrap").slideToggle(500);
@@ -239,6 +294,7 @@
             var form = new FormData();
             var reporting = $("#ddreport").val();
             form.append("EMP_CODE", $("#empCode").val());
+            form.append("EMP_ID", $("#empid").val());
             form.append("F_NAME", $("#f-name").val());
             form.append("M_NAME", $("#m-name").val());
             form.append("L_NAME", $("#l-name").val());
@@ -257,6 +313,7 @@
             form.append('Image', $('#profile-img')[0].files[0]);
             form.append("CONTACT", $("#p-number").val());
             form.append("CONTACT1", $("#off-number").val());
+            form.append("PROBATION_PERIOD", $("#probation").val());
 
 
             var settings = {
@@ -317,7 +374,17 @@
 
 
 
-            var obj = { "USER_GUID": "ALL" };
+            //alert(cur_role);
+            if (cur_role == 'Admin') {
+                var obj = { "USER_GUID": "ALL" };
+            }
+            else {
+
+                var obj = { "USER_GUID": getCookies().USER_GUID };//ALL
+            }
+
+
+
             $.ajax({
                 type: 'POST',
                 url: apiurl + '/Employee/Get_Employee_List',
@@ -329,17 +396,19 @@
                 success: function (response) {
 
                     var tbldata = response.dataObject;
+                    console.log(tbldata);
                     (usertable = $("#usertable").DataTable({
                         dom: "fltip",
                         order: [],
                         responsive: { details: { type: "column", target: "tr" } },
                         lengthMenu: [
-                            [10, 25, 1e3, 500, 200, 100, 50, 25],
-                            ["ALL", 1e3, 500, 200, 100, 50, 25, 10],
+                            [10, 25, 50, 100, 200, -1],
+                            [10, 25, 50, 100, 200, "All"]
                         ],
                         pagingType: "full",
                         infoFiltered: !0,
                         aaData: tbldata,
+                        "oSearch": { "sSearch": "Sales" },
                         columns: [
                             {
                                 "mData": function (data, type, dataToSet) {
@@ -369,6 +438,7 @@
                                     }
                                 }
                             },
+
                             {
                                 "data": "doj",
                                 "render": function (data) {
@@ -405,7 +475,7 @@
                             { width: 60, targets: 0 },
                             { width: 220, targets: 1 },
                             { width: 250, targets: 2 },
-                           
+
                             {
                                 targets: [5, 6],
                                 render: function (data, type, row, meta) {
@@ -421,7 +491,9 @@
                                     $("td", e).css("background-color", "#ffffff"), $("td", e).css("color", "black"), $("td", e).css("font-weight", "500");
                             }
                         },
+                        drawCallback: function (settings) {
 
+                        },
                         initComplete: function () {
                             var info = this.api().page.info();
 
@@ -453,32 +525,61 @@
                                     select.append('<option value="' + d + '">' + d + '</option>')
                                 });
                             });
-                        },
+                        }
 
-                    })),
+                    }))
 
-                        $('#usertable tbody').on("click", '.Empcode', function (event) {
-                            var obj = usertable.row($(this).parents('tr')).data();
-                            var userID = obj.useR_GUID;
-                            var empcode = obj.emP_CODE;
-                            var hub = obj.hub;
-                            var name = obj.name;
-                            window.open('user-profile.aspx?uid=' + userID + '&empcode=' + empcode + '&hub=' + hub+'&name='+name);
-                        });
+                    /* reporting to list */
+                    //usertable.column(6).search(fname).column(5).search(deptname).draw();
+
+                    $('#usertable tbody').on("click", '.Empcode', function (event) {
+                        var obj = usertable.row($(this).parents('tr')).data();
+                        var userID = obj.useR_GUID;
+                        var empcode = obj.emP_CODE;
+                        var hub = obj.hub;
+                        var name = obj.name;
+                        window.open('SalesWork.aspx?uid=' + userID + '&name=' + name);
+                    });
                     $(document).on("change", "#fromdatef", function (e) {
                         e.preventDefault(), ($.fn.dataTableExt.afnFiltering.length = 0);
                         var t = $("#fromdatef").val();
                         "" == t && (t = "1980-12-12"), (endDate = $("#todatef").val()), "" == endDate && (endDate = "2080-12-12"), filterByDate(6, t, endDate), usertable.draw();
                     });
-                },
+                }
 
             });
         });
 
+        function searchbynamedept(deptname, fname) {
+            usertable.column(6).search(fname).column(5).search(deptname).draw();
+        }
 
 
 
+        var obj1 = {
+            "APPROVAL_TO": "1353A47B-6C29-49E9-98C2-1E1AA48AB05C",
+            "AttendanceDate": "2022-12",
+            "STATUS": "TEAM"
+        }
+
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            url: "https://crmapi.24fd.com/Attendance/get_attendance_compoff_approval_list",
+            data: JSON.stringify(obj1),
+            async: false,
+            processData: false,
+            success: function (response) {
+                console.log(response);
+            },
+            error: function () {
+
+                toastr.error('Something went wrong. Please try again!.', 'Error')
+            }
+        });
 
     </script>
 
 </asp:Content>
+

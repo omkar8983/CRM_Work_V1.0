@@ -14,7 +14,6 @@
             display:none!important;
         }
       
-
         #filter {
             display: none;
             margin-bottom: 0;
@@ -508,8 +507,8 @@
             var cookieMap = {};
             let coo = document.cookie.split(';');
             for (var value of coo.values()) {
-                if (value.includes('SALES_CRM=')) {
-                    var cookie = value.trim().replace('SALES_CRM=', '').split('&');
+                if (value.includes('SALESCRM=')) {
+                    var cookie = value.trim().replace('SALESCRM=', '').split('&');
                     cookie.forEach(x => { cookieMap[x.split('=')[0]] = x.split('=')[1] });//x.split('='), cook[x[0] = x[1]]);console.log(x.split('=')[0]), console.log(x.split('=')[1])
                     return cookieMap;
                 }
@@ -806,9 +805,18 @@
         });
 
         $(document).ready(function () {
-            urlsales = apiurl + '/DailyActivity/get_daily_activity';
-            var obj = { "USER_GUID": uid, "STATUS": "COMPLETED"}
 
+            var urlParams = new URLSearchParams(window.location.search);
+            var userid = urlParams.get('uid');
+            var dstatus = urlParams.get('dstatus');
+           
+            urlsales = apiurl + '/DailyActivity/get_daily_activity';
+            if (dstatus == '1') {
+                var obj = { "USER_GUID": userid, "STATUS": "COMPLETED" }
+            }
+            else {
+                var obj = { "USER_GUID": uid, "STATUS": "COMPLETED" }
+            }
             $.ajax({
                 type: 'POST',
                 url: urlsales,
