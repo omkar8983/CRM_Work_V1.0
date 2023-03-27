@@ -1000,7 +1000,7 @@
                                 "data": null,
                                 "sClass": "skip-click",
                                 //"sDefaultContent": '<div class="AddTask  mb-2">Add Task</div> <div class="viewpoc ">View POC</div>'
-                                "sDefaultContent": '<div class="AddTask  mb-2">Add Task</div> <div class="viewpoc ">View POC</div>'
+                                "sDefaultContent": ' <div class="viewpoc ">View POC</div>'
                             }
                         ],
                         columnDefs: [
@@ -1252,8 +1252,6 @@
                             "CREATED_BY": getCookies().USER_GUID,
                         };
 
-                        console.log(dataobj);
-                        console.log(dataobj);
                         var settings = {
                             "url": "https://crmapi.24fd.com/Company_Master/post_company_POC_24fdperson_mapping",
                             "method": "POST",

@@ -42,13 +42,13 @@
      <div class="container-fluid">
         <div class="row mt-4 mainWrap">
 
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <div class="table-head">
                     
                     <h5> Company List</h5>
                 </div>
             </div>
-            <div class="col-md-9">
+            <div class="col-md-7">
                 <div class="filters-wrap">
                     <div class="list-name">
                         <span>Total:</span>
@@ -325,6 +325,8 @@
             var urlParams = new URLSearchParams(window.location.search);
             var userid = urlParams.get('uid');
             var dstatus = urlParams.get('dstatus');
+            var name = urlParams.get('name');
+            $("#sales-name").text(name);
             if (dstatus == '1') {
                 var dataurl = apiurl + "/Company_Master/get_all_company_list_bySalesPerson?User_Id=" + userid;
             }
@@ -477,7 +479,8 @@
                 $('#usertable tbody').on("click", '.status', function (event) {
                     var obj = usertable.row($(this).parents('tr')).data();
                     var cid = obj.c_GUID;
-                    window.open('CompanyDetails.aspx?cid=' + cid);
+                    window.location.href = "CompanyDetails.aspx?cid=' + cid"
+                    
                 });
             });
         });

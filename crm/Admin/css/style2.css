@@ -350,9 +350,10 @@ body {
 
 .title {
     color: black;
-    text-align: center;
+    text-align: left;
     margin-bottom: 1em;
     margin-top: 2em;
+    font-weight: 800;
 }
 
     .title h2 {

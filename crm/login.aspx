@@ -137,7 +137,7 @@
                     }
 
                     else {
-                        window.location = "admin/CompanyMaster.aspx";
+                        window.location = "admin/user-list.aspx";
                         }
                    
                 }

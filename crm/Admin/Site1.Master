@@ -14,25 +14,28 @@
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <link rel="stylesheet" href="css/nav.css" />
       
-   <%-- <style>
-        .select2-selection__rendered {
-            display: none !important;
+    <style>
+        .dropdown{
+            display:flex;
+            align-items:center;
         }
-    </style>--%>
+    </style>
 </head>
 <body>
     <div class="row mt-4 mainRow mainWrap mr-0">
         <div class="col-md-5 user-text">
-            <h2 id="pagename"></h2>
+             <h4><span id="sales-name"></span></h4>
         </div>
         <div class="col-md-7">
             <div class="search-container">
-                  <i id="bell-icon" class="fa-solid fa-bell"></i>
+                  <%--<i id="bell-icon" class="fa-solid fa-bell"></i>--%>
+                
                 <div class="dropdown">
                     <img src="#" id="userimg" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" alt="" />
+                     <p class="" style="margin-left:15px; color:#155b9f; margin-bottom:0;"><span id="uname"></span></p>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item">
-                            <i class="ri-user-3-fill"></i><span id="uname"></span></a><br />
+                            <%--<i class="ri-user-3-fill"></i><span id="uname"></span></a><br />--%>
                             <a class="dropdown-item" href="logout.aspx"><i class="ri-logout-circle-r-fill"></i>Logout</a>
                         </li>
                         <li></li>
@@ -65,7 +68,10 @@
                             <li id="upload">
                                 <a href="/admin/ImportData.aspx"><i class="ri-upload-cloud-fill"></i>Upload Employee </a>
                             </li>--%>
-                          <li id="cmaster">
+                          <li id="userlist">
+                                <a href="/SalesCRM/admin/user-list.aspx"><i class="ri-user-line"></i>User List</a>
+                            </li> 
+                            <li id="cmaster">
                                 <a href="/SalesCRM/admin/CompanyMaster.aspx"><i class="ri-database-2-fill"></i>Company Master</a>
                             </li>
                               <li id="clist">
@@ -135,7 +141,7 @@
         }
         var role = getCookies().DESIGNATION_ID;
         var uname = getCookies().NAME;
-        var uname = getCookies().NAME;
+        $("#uname").text(uname)
         var company = $("#clist");
         var cmaster = $("#cmaster");
         var emplist = $("#emplist");
@@ -145,7 +151,7 @@
         var mlist = $("#mlist");
 
 
-        if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+        if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e"){
             $(emplist).hide();
             $(cmaster).hide();
             $(areport).hide();
@@ -156,7 +162,7 @@
         else {
             $(company).hide();
         }
-        $("#uname").text(uname)
+      
       
     </script>
 </body>

@@ -123,7 +123,7 @@ $.ajax({
 
 
         $('#dailytbl tbody').on("click", '.viewmom', function (e) {
-            window.open('MOM.aspx');
+            window.location.href = 'MOM.aspx'
         });
 
 

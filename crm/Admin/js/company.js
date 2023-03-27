@@ -141,7 +141,7 @@ $.getJSON(dataurl, { format: "json" }).done(function (data) {
     $('#ctable tbody').on("click", '.status', function (event) {
         var obj = ctable.row($(this).parents('tr')).data();
         var cid = obj.c_GUID;
-        window.open('CompanyDetails.aspx?cid=' + cid);
+        window.location.href = 'CompanyDetails.aspx?cid=' + cid
     });
 
 

@@ -499,12 +499,12 @@
 
                             $("#entries").html(info.recordsTotal);
                             var cfiltercol = [];
-                            cfiltercol = [5, 6];
+                            cfiltercol = [5];
                             this.api().columns(cfiltercol).every(function () {
                                 var column = this;
                                 var title = this.header();
 
-                                var select = $('<select class="form-control col-md-3 col-sm-12 col-xs-12 filterselect mb-1 p-1" id="' + $(title).html() + '"><option>SELECT ' + $(title).html() + '</option><option value="">Show All</option></select>')
+                                var select = $('<select class="form-control col-md-3 col-sm-12 col-xs-12 filterselect mb-1 p-1" id="Sales"><option>SELECT ' + $(title).html() + '</option><option value="">Show All</option></select>')
                                     .appendTo($('#filter'))
                                     //.appendTo($(column.header()))
                                     .on('change', function () {
@@ -538,8 +538,9 @@
                         var empcode = obj.emP_CODE;
                         var hub = obj.hub;
                         var name = obj.name;
-                        window.open('SalesWork.aspx?uid=' + userID + '&name=' + name);
+                        window.location.href = 'SalesWork.aspx?uid='+ userID + '&name=' + name
                     });
+
                     $(document).on("change", "#fromdatef", function (e) {
                         e.preventDefault(), ($.fn.dataTableExt.afnFiltering.length = 0);
                         var t = $("#fromdatef").val();

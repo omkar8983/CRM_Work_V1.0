@@ -1,4 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Site1.Master" AutoEventWireup="true" CodeBehind="CompanyDetails.aspx.cs" Inherits="CRM.Admin.CompanyDetails" %>
+﻿
+
+
+<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Site1.Master" AutoEventWireup="true" CodeBehind="CompanyDetails.aspx.cs" Inherits="CRM.Admin.CompanyDetails" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.1/css/select2.min.css" />
@@ -228,14 +231,14 @@
                             <div class="row col-md-12 input_fields_wrap m-0 p-0">
                                 <div class="col-md-4 mb-3">
                                 <label for="">Email </label>
-                                <input type="Email" name="Email" class="form-control" id="txtemail" placeholder="Email">
+                                <input type="Email" name="Email" class="form-control" id="txtemail" placeholder="Email" required>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="">Contact </label>
                                 <input"/>
                                 <select  type="text" id="country-ext"  class="form-control contrycode" >
                                 </select>
-                                <input type="text" name="number" id="txtnumber" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" maxlength="10" minlength="10" placeholder="Contact">
+                                <input type="text" name="number" id="txtnumber" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" maxlength="10" minlength="10" placeholder="Contact" required>
                             </div>
                             </div>
                               <div class="col-md-12">
@@ -436,7 +439,7 @@
                 e.preventDefault();
                 var total_fields = wrapper[0].childNodes.length;
                 if (total_fields < max_fields) {
-                    $(wrapper).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0"> <select  type="number" id="country-ext' + form_id + '" "  class="form-control contrycode" > </select > <input type="text" class="form-control" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
+                    $(wrapper).append('<div class="inpuWrap row m-0 p-0"><div class="form-group chk_wrap col-md-4 pr-0 mb-0"><input type="email" class="form-control" name="CONTACT_PERSON_EMAIL" id="txtemail' + form_id + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" required> </div> <div class="form-group col-md-4 mb-0"> <select  type="number" id="country-ext' + form_id + '" "  class="form-control contrycode" > </select > <input type="text" class="form-control"  style="padding-left:60px" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + form_id + '" placeholder="Mobile No. of Contact Person" required></div>  <div class="removeRow col-md-12 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div></div>');
                 }
                 getcountrycode();
             });
@@ -487,6 +490,8 @@
             })
 
             bindselect(apiurl + '/Master/get_24fd_person_list_by_dept?dept_id=ACDAF408-1322-ED11-82D6-02CDC8B1CF2E', 'ddsales');
+
+
             $.ajax({
                 type: 'POST',
                 url: salesurl,
@@ -569,14 +574,14 @@
 
                                 }
                             },
-                            
+
                             { "data": "name" },
                             //{ "data": "email" },
                             {
                                 "data": "email1",
                                 "mRender": function (data, type, row) {
-                                    return '' + row.email + '<p class="leaveText"> ' + row.emaiL1+'</p>'
-                                    
+                                    return '' + row.email + '<p class="leaveText"> ' + row.emaiL1 + '</p>'
+
                                 }
                             },
                             { "data": "contact" },
@@ -591,8 +596,8 @@
 
                             { "data": "assignedto" },
                             {
-                            "data": null,
-                            "sClass": "skip-click",
+                                "data": null,
+                                "sClass": "skip-click",
                                 "sDefaultContent": '<i class="ri-edit-box-fill editico" id=""></i>'
                             }
                         ],
@@ -615,7 +620,6 @@
                             }
                         ],
 
-
                         "createdRow": function (row, data, dataIndex) {
                             if (data["assignedto"] != "") {
                                 $("td .checkbox", row).css("pointer-events", "none");
@@ -627,7 +631,6 @@
 
 
                             }
-
                         },
 
                         initComplete: function () {
@@ -666,214 +669,278 @@
                     }));
 
 
-                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
                         usertable.columns([0]).visible(true);
+                        usertable.columns([7]).visible(true);
                     }
                     else {
                         usertable.columns([4]).visible(false);
-                    }
+                        usertable.columns([4]).visible(false);
+                        //}
 
-                    if (role == '28b18abb-2096-ed11-82dd-02cdc8b1cf2e') {
-                        // Get the column API object
-                        var column = usertable.column(7);
-                        // Toggle the visibility
-                        column.visible(true);
-                        $(".assignbtn1").hide();
-                    }
+                        if (role == '28b18abb-2096-ed11-82dd-02cdc8b1cf2e') {
+                            // Get the column API object
+                            var column = usertable.column(7);
+                            // Toggle the visibility
+                            column.visible(true);
+                            $(".assignbtn1").hide();
+                        }
 
-                    $('#usertable tbody').on("click", '.Empcode', function (event) {
-                        var obj = usertable.row($(this).parents('tr')).data();
-                        var userID = obj.useR_GUID;
-                        var empcode = obj.emP_CODE;
-                        var hub = obj.hub;
-                        var name = obj.name;
-                        window.open('user-profile.aspx?uid=' + userID + '&empcode=' + empcode + '&hub=' + hub + '&name=' + name);
-                    });
+                        $('#usertable tbody').on("click", '.Empcode', function (event) {
+                            var obj = usertable.row($(this).parents('tr')).data();
+                            var userID = obj.useR_GUID;
+                            var empcode = obj.emP_CODE;
+                            var hub = obj.hub;
+                            var name = obj.name;
+                            window.location.href = 'user-profile.aspx?uid=' + userID + '&empcode=' + empcode + '&hub=' + hub + '&name=' + name
+                        });
 
 
-                    $('#checkAll').click(function (e) {
-                        var chk = $(this).prop('checked');
-                        var currentRows = $('#usertable tbody tr');
-                        $.each(currentRows, function () {
-                            $(this).find(':checkbox[name=ckbox]').each(function () {
-                                $(this).prop('checked', chk);
+                        $('#checkAll').click(function (e) {
+                            var chk = $(this).prop('checked');
+                            var currentRows = $('#usertable tbody tr');
+                            $.each(currentRows, function () {
+                                $(this).find(':checkbox[name=ckbox]').each(function () {
+                                    $(this).prop('checked', chk);
+                                });
                             });
                         });
-                    });
-                    $(".assignbtn1").click(function () {
-                        $('#assign').modal('show');
-                        //var checkboxChecked = $('.custom-select input[name=ckbox]:checked');
-                        //if ($(".checkbox").prop('checked') == true) {
-                        //    $('#assign').modal('show');
-                        //}
-                        //else {
-                        //    toastr.warning('please select POC to assign', 'POC Assign')
-                        //}
-                    });
+                        $(".assignbtn1").click(function () {
+                            $('#assign').modal('show');
+                            //var checkboxChecked = $('.custom-select input[name=ckbox]:checked');
+                            //if ($(".checkbox").prop('checked') == true) {
+                            //    $('#assign').modal('show');
+                            //}
+                            //else {
+                            //    toastr.warning('please select POC to assign', 'POC Assign')
+                            //}
+                        });
 
-                    $('#usertable tbody').on("click", ".checkbox", function () {
-                        if ($('.checkbox').is(":checked")) {
-                            searchIDs = $(this).val()
-                            var searchIDs = $("input:checkbox:checked").map(function () {
-                                return $(this).val();
-                            }).get(); // <----
-                            var remove_Item = 'test';
-                            searchIDs1 = $.grep(searchIDs, function (value) {
-                                return value != remove_Item;
+                        $('#usertable tbody').on("click", ".checkbox", function () {
+                            if ($('.checkbox').is(":checked")) {
+                                searchIDs = $(this).val()
+                                var searchIDs = $("input:checkbox:checked").map(function () {
+                                    return $(this).val();
+                                }).get();
+
+                                var coid = $("input:checkbox:checked").map(function () {
+                                    return $(this).attr('data-id');
+                                }).get();
+
+                                var remove_Item = 'test';
+                                searchIDs1 = $.grep(searchIDs, function (value) {
+                                    return value != remove_Item;
+                                });
+
+                                var remove_Item1 = 'test';
+                                coid1 = $.grep(coid, function (value) {
+                                    return value != remove_Item1;
+                                });
+                                $("#pocid1").val(searchIDs1);
+                                $("#coid1").val(coid1);
+                            }
+                            else {
+                                $("#pocid1").val("");
+                                $("#coid1").val(coid1);
+                            }
+                        });
+
+                        $('#checkAll').click(function (e) {
+                            var chk = $(this).prop('checked');
+                            var currentRows = $('#usertable tbody tr');
+                            $.each(currentRows, function () {
+                                $(this).find(':checkbox[name=ckbox]').each(function () {
+                                    $(this).prop('checked', chk);
+                                });
                             });
-                            $("#pocid1").val(searchIDs1);
-                        }
-                        else {
-                            $("#pocid1").val("");
-                        }
-                    });
 
-                    $('#usertable tbody').on("click", '.editico', function (e) {
-                        $("#pocupdate").modal("show");
-                        var obj = usertable.row($(this).parents('tr')).data();
-                        $("#pocid").val(obj.poC_ID)
-                        $("#nameup").val(obj.name);
-                        $("#emailup").val(obj.email);
-                        $("#numberup").val(obj.contact);
-                        $("#desigup").val(obj.designation);
-                        $("#deptup").val(obj.department);
+                            if (this.checked) {
+                                $(':checkbox').each(function () {
+                                    this.checked = true;
+                                    var searchIDs = $("input:checkbox:checked").map(function () {
+                                        return $(this).val();
+                                    }).get();
 
-                        var emaillist = obj.emaiL1;
-                        var emailarr = []
-                        emailarr.push(obj.emaiL1);
-                        emailarr = emaillist.split(",");
+                                    var coid = $("input:checkbox:checked").map(function () {
+                                        return $(this).attr('data-id');
+                                    }).get();
+                                    var remove_Item = 'test';
+                                    searchIDs1 = $.grep(searchIDs, function (value) {
+                                        return value != remove_Item;
+                                    });
+                                    var remove_Item1 = 'test';
+                                    coid1 = $.grep(coid, function (value) {
+                                        return value != remove_Item1;
+                                    });
 
-                        var numberlist = obj.contacT1;
-                        var numarr = []
-                        numarr.push(obj.contacT1);
-                        numarr = numberlist.split(",");
-                        
+                                    console.log(coid1);
+                                    console.log(searchIDs1);
+                                    $("#pocid1").val(searchIDs1);
+                                    $("#coid1").val(coid1);
+                                });
+                            } else {
+                                $(':checkbox').each(function () {
+                                    this.checked = false;
+                                    $("#pocid1").val("");
+                                    $("#coid1").val("");
+                                });
+                            }
+                        });
+
+                        $('#usertable tbody').on("click", '.editico', function (e) {
+                            $("#pocupdate").modal("show");
+                            var obj = usertable.row($(this).parents('tr')).data();
+                            $("#pocid").val(obj.poC_ID)
+
+                            const str = obj.name;
+                            const namearr = str.split(" ");
+                            $("#fnameup").val(namearr[0]);
+                            $("#lnameup").val(namearr[1]);
+                            $("#emailup").val(obj.email);
+                            $("#Linkedin1").val(obj.linkedin);
+                            $("#numberup").val(obj.contact);
+                            $("#desigup").val(obj.designation);
+                            $("#deptup").val(obj.department);
+
+                            var emaillist = obj.emaiL1;
+                            var emailarr = []
+                            emailarr.push(obj.emaiL1);
+                            emailarr = emaillist.split(",");
+
+                            var numberlist = obj.contacT1;
+                            var numarr = []
+                            numarr.push(obj.contacT1);
+                            numarr = numberlist.split(",");
+
 
 
                             var docwrap = "";
-                        for (var i = 0; i < emailarr.length; i++) {
-                            if (emailarr[i] == "") {
+                            for (var i = 0; i < emailarr.length; i++) {
+                                if (emailarr[i] == "") {
+
+                                }
+                                else {
+                                    docwrap = docwrap + '<input type="email" class="form-control mb-3" name="CONTACT_PERSON_EMAIL" id="txtemail' + i + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" value="' + emailarr[i] + '" >  ';
+                                }
 
                             }
-                            else {
-                                docwrap = docwrap + '<input type="email" class="form-control mb-3" name="CONTACT_PERSON_EMAIL" id="txtemail' + i + '" placeholder="Email" pattern="^[^ ]+@[^ ]+\.[a-z]{2,3}$" title="eg. example@example.com" value="' + emailarr[i] + '" >  ';
-                            }
+                            $('.div1').html(docwrap);
 
-                        }
-                        $('.div1').html(docwrap);
+                            var docwrap = "";
+                            for (var i = 0; i < numarr.length; i++) {
+                                if (numarr[i] == "") {
 
-                        var docwrap = "";
-                        for (var i = 0; i < numarr.length; i++) {
-                            if (numarr[i] == "") {
-
-                            }
-                            else {
-                                docwrap = docwrap + '<div class="col-md-6"><input type="text" class="form-control mb-3" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + i + '" placeholder="Mobile No. of Contact Person" value="' + numarr[i] + '" ></div> <div class="removeRow col-md-3 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div>';
-                            }
-                        }
-                        $('.div2').html(docwrap);
-                    });
-
-                    $('#assign').on('click', '.btnSave', function (event) {
-                        event.preventDefault();
-
-                        idarray = $('#pocid1').val(); //retrieve array
-                        var idarray1 = idarray.replace(/[[\]"]/g, '');
-                        idarray1 = idarray1.replace("on", '');
-                        var callerid = $("#ddsales option:selected").val();
-                        //  var records = $('#bblcount').text();
-                        var USER_CODE = getCookies().solitary_code;
-                        console.log(idarray1);
-                        var chk1 = $("#pocid1").val();
-                        var USER_GUID = $("#ddsales option:selected").val();
-                        var dataobj = {
-                            "POC_ID": idarray1,
-                            "C_GUID": companyid,
-                            "USER_GUID": USER_GUID,
-                            "CREATED_BY": getCookies().USER_GUID,
-                        };
-
-                        console.log(dataobj);
-                        console.log(dataobj);
-                        var settings = {
-                            "url": "https://crmapi.24fd.com/Company_Master/post_company_POC_24fdperson_mapping",
-                            "method": "POST",
-                            "timeout": 0,
-                            "headers": {
-                                "Content-Type": "application/json"
-                            },
-                            "data": JSON.stringify(
-                                dataobj
-                            ),
-                        };
-
-                        $.ajax(settings).done(function (response) {
-                            $("#assign").modal("hide");
-                            console.log(response);
-                            if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
-                                urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
-                                obj = {
-                                    "C_GUID": companyid,
-                                    "USER_GUID": userid
+                                }
+                                else {
+                                    docwrap = docwrap + '<div class="col-md-6"><input type="text" class="form-control mb-3" pattern="[0-9]{10}" title="10 digits eg. 8888889999" name="number" id="txtnumber' + i + '" placeholder="Mobile No. of Contact Person" value="' + numarr[i] + '" ></div> <div class="removeRow col-md-3 mb-2 mt-1 pr-4"><a class="btnRemove">Remove</a></div>';
                                 }
                             }
-
-                            else {
-                                urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
-                                var obj = { "C_GUID": companyid }
-                            }
-                            if (response.message == 'Comapny-POC assigned to 24fd person Successfully.') {
-                                toastr.success('POC Assigend Successfully.', 'POC Assigend')
-                                $("#form-assign")[0].reset();
-
-                                $.ajax({
-                                    type: 'POST',
-                                    url: urlsales,
-                                    dataType: "json",
-                                    contentType: 'application/json;charset=utf-8 ',
-                                    data: JSON.stringify(obj),
-                                    async: false,
-                                    processData: false,
-                                    success: function (response) {
-                                        poclist(response);
-                                    }
-                                });
-                                $.ajax({
-                                    type: 'POST',
-                                    url: urlsales,
-                                    dataType: "json",
-                                    contentType: 'application/json;charset=utf-8 ',
-                                    data: JSON.stringify(obj),
-                                    async: false,
-                                    processData: false,
-                                    success: function (response) {
-                                        var item = response.dataObject;
-                                        usertable.clear().draw();
-                                        usertable.rows.add(item);
-                                        usertable.columns.adjust().draw();
-                                    }
-                                });
-                            }
-
-                            else if (response.message == 'EXISTSING Comapny-POC Mapped Successfully.') {
-                                toastr.warning('Existing POC.', 'Existing POC')
-                            }
-                            else {
-                                toastr.error('Something went wrong. Please try again!.', 'Error')
-                                console.log(response);
-                            }
+                            $('.div2').html(docwrap);
                         });
 
+                        $('#assign').on('click', '.btnSave', function (event) {
+                            event.preventDefault();
+
+                            idarray = $('#pocid1').val(); //retrieve array
+                            var idarray1 = idarray.replace(/[[\]"]/g, '');
+                            idarray1 = idarray1.replace("on", '');
+                            var callerid = $("#ddsales option:selected").val();
+                            //  var records = $('#bblcount').text();
+                            var USER_CODE = getCookies().solitary_code;
+                            console.log(idarray1);
+                            var chk1 = $("#pocid1").val();
+                            var USER_GUID = $("#ddsales option:selected").val();
+                            var dataobj = {
+                                "POC_ID": idarray1,
+                                "C_GUID": companyid,
+                                "USER_GUID": USER_GUID,
+                                "CREATED_BY": getCookies().USER_GUID,
+                            };
+
+                            console.log(dataobj);
+                            console.log(dataobj);
+                            var settings = {
+                                "url": "https://crmapi.24fd.com/Company_Master/post_company_POC_24fdperson_mapping",
+                                "method": "POST",
+                                "timeout": 0,
+                                "headers": {
+                                    "Content-Type": "application/json"
+                                },
+                                "data": JSON.stringify(
+                                    dataobj
+                                ),
+                            };
+
+                            $.ajax(settings).done(function (response) {
+                                $("#assign").modal("hide");
+                                console.log(response);
+                                if (role != "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+
+                                    urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
+                                    var obj = { "C_GUID": companyid }
+                                }
+
+                                else {
+
+                                    urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
+                                    obj = {
+                                        "C_GUID": companyid,
+                                        "USER_GUID": userid
+                                    }
+                                }
+                                if (response.message == 'Comapny-POC assigned to 24fd person Successfully.') {
+                                    toastr.success('POC Assigend Successfully.', 'POC Assigend')
+                                    $("#form-assign")[0].reset();
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: urlsales,
+                                        dataType: "json",
+                                        contentType: 'application/json;charset=utf-8 ',
+                                        data: JSON.stringify(obj),
+                                        async: false,
+                                        processData: false,
+                                        success: function (response) {
+                                            poclist(response);
+                                        }
+                                    });
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: urlsales,
+                                        dataType: "json",
+                                        contentType: 'application/json;charset=utf-8 ',
+                                        data: JSON.stringify(obj),
+                                        async: false,
+                                        processData: false,
+                                        success: function (response) {
+                                            var item = response.dataObject;
+                                            usertable.clear().draw();
+                                            usertable.rows.add(item);
+                                            usertable.columns.adjust().draw();
+                                        }
+                                    });
+                                }
+
+                                else if (response.message == 'EXISTSING Comapny-POC Mapped Successfully.') {
+                                    toastr.warning('Existing POC.', 'Existing POC')
+                                }
+                                else {
+                                    toastr.error('Something went wrong. Please try again!.', 'Error')
+                                    console.log(response);
+                                }
+                            });
 
 
-                    });
 
-                    $(document).on("change", "#fromdatef", function (e) {
-                        e.preventDefault(), ($.fn.dataTableExt.afnFiltering.length = 0);
-                        var t = $("#fromdatef").val();
-                        "" == t && (t = "1980-12-12"), (endDate = $("#todatef").val()), "" == endDate && (endDate = "2080-12-12"), filterByDate(6, t, endDate), usertable.draw();
-                    });
-                },
+                        });
+
+                        $(document).on("change", "#fromdatef", function (e) {
+                            e.preventDefault(), ($.fn.dataTableExt.afnFiltering.length = 0);
+                            var t = $("#fromdatef").val();
+                            "" == t && (t = "1980-12-12"), (endDate = $("#todatef").val()), "" == endDate && (endDate = "2080-12-12"), filterByDate(6, t, endDate), usertable.draw();
+                        });
+                    }
+                }
 
             });
         });
@@ -912,7 +979,7 @@
                     docwrap = docwrap + '<p> <strong>Designation: </strong><span id="desg">' + item.designation + '</p>';
                     docwrap = docwrap + '<p> <strong>Department: </strong><span id="dept">' + item.department + '</p>';
                     docwrap = docwrap + '<p> <strong>Assigned To: </strong><span id="dept">' + item.assignedto + '</p>';
-                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
                         docwrap = docwrap + '<i class="ri-edit-box-fill edit" id="' + item.poC_ID + '" style="right:5%;"></i>';
                     }
                     else {
@@ -969,7 +1036,7 @@
         }
 
         var role = getCookies().DESIGNATION_ID;
-        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e" ) {
             $(".assignbtn").show();
             $(".btnswrap").show();
             $(".assignbtn1").show();
@@ -1056,7 +1123,8 @@
             });
 
 
-            var nameu = $("#nameup").val();
+            var nameu = $("#fnameup").val();
+            var lnameu = $("#lnameup").val();
             var emailu = $("#emailup").val();
             var numberu = $("#numberup").val();
             var desigu = $("#desigup").val();
@@ -1067,7 +1135,7 @@
 
             var dataobj = {
                 "POC_ID": chk,
-                "NAME": nameu,
+                "NAME": nameu + lnameu,
                 "EMAIL": emailu,
                 "CONTACT": numberu,
                 "DESIGNATION": desigu,
@@ -1094,19 +1162,18 @@
             $.ajax(settings).done(function (response) {
                 $("#pocupdate").modal("hide");
                 console.log(response);
-                if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+                if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
+                    urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
+                    var obj = { "C_GUID": companyid }
+                }
+
+                else {
                     urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
                     obj = {
                         "C_GUID": companyid,
                         "USER_GUID": userid
                     }
                 }
-
-                else {
-                    urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
-                    var obj = { "C_GUID": companyid }
-                }
-
 
                 if (response.message == 'Comapny-POC Updated Successfully.') {
                     toastr.success('POC Updated Successfully.', 'POC Updated')
@@ -1154,9 +1221,9 @@
 
         });
 
-        var role = getCookies().ROLE_ID;
+        var role = getCookies().DESIGNATION_ID;
         var userid = getCookies().USER_GUID;
-        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
             obj = {
                 "C_GUID": companyid,
                 "USER_GUID": userid
@@ -1195,7 +1262,8 @@
                 }
             });
         }
-
+        console.log(role);
+    
         $("#form-poc").submit(function (event) {
             event.preventDefault();
 
@@ -1231,7 +1299,6 @@
             var dept = $("#txtdept").val();
             var Linkedin = $("#Linkedin").val();
 
-            alert(countryval + numberval);
 
             if (number != "" || email != "") {
                 var dataobj = {
@@ -1264,7 +1331,12 @@
                     //var resp = JSON.parse(response)
                     $("#Addpoc").modal("hide");
                     console.log(response);
-                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
+                        urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
+                        var obj = { "C_GUID": companyid }
+                    }
+
+                    else {
                         urlsales = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
                         obj = {
                             "C_GUID": companyid,
@@ -1272,12 +1344,33 @@
                         }
                     }
 
-                    else {
-                        urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
-                        var obj = { "C_GUID": companyid }
-                    }
-
                     if (response.message == 'Comapny-POC Mapped Successfully.') {
+                        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
+                            console.log(role)
+                        }
+                        else {
+                            var dataobj = {
+                                "POC_ID": response.dataObject[0].poC_ID,
+                                "C_GUID": companyid,
+                                "USER_GUID": getCookies().USER_GUID,
+                                "CREATED_BY": getCookies().USER_GUID,
+                            };
+
+                            $.ajax({
+                                type: 'POST',
+                                "url": "https://crmapi.24fd.com/Company_Master/post_company_POC_24fdperson_mapping",
+                                dataType: "json",
+                                contentType: 'application/json;charset=utf-8 ',
+                                data: JSON.stringify(dataobj),
+                                async: false,
+                                processData: false,
+                                success: function (response) {
+
+                                }
+                            });
+                        }
+                        
+
                         toastr.success('POC Added Successfully.', 'POC Added')
                         $.ajax({
                             type: 'POST',
@@ -1328,16 +1421,16 @@
         });
 
 
-        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+        if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e" || role == "ff3692b5-2096-ed11-82dd-02cdc8b1cf2e") {
+            salesurl = apiurl + '/Company_Master/get_company_POC_mapping'
+            obj = { "C_GUID": companyid }
+        }
+        else {
             var salesurl = apiurl + '/Company_Master/get_company_POC_mapping_bySalesPerson';
             obj = {
                 "C_GUID": companyid,
                 "USER_GUID": userid
             }
-        }
-        else {
-            salesurl = apiurl + '/Company_Master/get_company_POC_mapping'
-            obj = { "C_GUID": companyid }
         }
 
 
