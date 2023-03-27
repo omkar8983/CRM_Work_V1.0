@@ -228,7 +228,8 @@
                         $('#usertable tbody').on("click", '.Empcode', function (event) {
                             var obj = usertable.row($(this).parents('tr')).data();
                             var userID = obj.useR_GUID;
-                            window.open('user-profile.aspx?uid=' + userID);
+                            window.location.href = 'user-profile.aspx?uid=' + userID
+
                         });
 
 

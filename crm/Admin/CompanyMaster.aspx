@@ -350,12 +350,10 @@
             if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
                 var dataurl = apiurl + "/Company_Master/get_all_company_list?COMPANY_ID=ALL";
             }
-
             else {
                 window.location = "Assignedcompanies.aspx";
             }
 
-           
             $.getJSON(dataurl, { format: "json" }).done(function (data) {
                 $('#loader1').removeClass('hidden');
                 // Object split 
@@ -556,7 +554,7 @@
                 $('#usertable tbody').on("click", '.status', function (event) {
                     var obj = usertable.row($(this).parents('tr')).data();
                     var cid = obj.c_GUID;
-                    window.open('CompanyDetails.aspx?cid=' + cid);
+                    window.location.href = 'CompanyDetails.aspx?cid=' + cid
                 });
             });
         });

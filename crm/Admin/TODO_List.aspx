@@ -209,7 +209,7 @@
                     <div class="formwrap row">
                         <form class="row" enctype="multipart/form-data" id="taskformup">
 
-                            <div class="col-md-4 mb-3 mx-1">
+                            <div class="col-md-2 mb-3 mx-1">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" required>
                                     <label class="form-check-label" for="flexCheckDefault">
@@ -217,12 +217,19 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="col-md-4 mb-3 mx-1">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="cdate">
+                                        Completed On
+                                    </label>
+                                    <input id="cdate" name="date" type="date" class="datepicker form-control" required>
+                                </div>
+                            </div>
                             
                             <div class="col-md-12 mb-3">
                                 <textarea class="form-control" name="Remark" id="Remarkup" placeholder="Remark *" cols="0" rows="0" required></textarea>
                             </div>
 
-                            <input type="hidden" class="form-control" id="tcid">
                             <div class="col-md-12 mt-1 text-left">
                                 <input type="submit" class="btn btn-primary btnSave" />
                             </div>
@@ -670,6 +677,7 @@
                        
                           $("#taskformup").submit(function (event) {
                               var remarkup = document.getElementById("Remarkup").value
+                              var cdate = $("#cdate").val();
                               event.preventDefault();
                               Swal.fire({
                                   title: 'Are you sure?',
@@ -684,6 +692,7 @@
                                       var dataobj = {
                                           "AID": AID,
                                           "STATUS": "COMPLETED",
+                                          "COMPLETED_ON": cdate,
                                           "CREATED_BY": uid,
                                           "REMARK": remarkup
                                       };

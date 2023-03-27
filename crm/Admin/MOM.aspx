@@ -11,9 +11,9 @@
             z-index: 100000;
             width: 100% !important;
         }
-
+        addclientbtn 
         #filter {
-            display: none;
+            display: block;
             margin-bottom: 0;
         }
 
@@ -240,7 +240,7 @@
                                     </div>
                                     <div class="col-md-3 nopadding">
                                         <div class="form-group">
-                                            <input type="number" class="form-control clientcontact" id="contactNo-0" name="contactNo[]" value=""
+                                            <input type="text" class="form-control clientcontact" id="contactNo-0" name="contactNo[]" value=""
                                                 placeholder="Contact No" />
                                         </div>
                                     </div>
@@ -528,7 +528,7 @@
             });
 
         }
- 
+       
 
         $(document).ready(function () {
             $(".mombtn").click(function () {
@@ -691,7 +691,8 @@
                 $('#usertable tbody').on("click", ".momview", function () {
                     var obj = usertable.row($(this).parents('tr')).data();
                     MID = obj.mid;
-                    window.open('momDetails.aspx?MID=' + MID )
+                    
+                    window.location.href = 'momDetails.aspx?MID=' + MID
                 });
 
                 $('#usertable tbody').on("click", ".checkbox", function () {
@@ -913,7 +914,7 @@
                     }
 
                     else {
-                        alert('21');
+                
                         urlsales = apiurl + '/Company_Master/get_company_POC_mapping';
                         var obj = { "C_GUID": companyid }
                     }

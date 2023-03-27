@@ -84,6 +84,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container-fluid">
         <div class="row mt-4 mainWrap">
+           <div class="empname"><h4 id="sales-name"></h4></div>
             <div class="col-md-6 mt-4">
                 <div class="tbl-card">
                     <h5>Assigned Companies</h5>
@@ -232,26 +233,26 @@
 
         var urlParams = new URLSearchParams(window.location.search);
         var userid = urlParams.get('uid');
-        var hub = urlParams.get('name');
-
+        var name = urlParams.get('name');
+        $("#sales-name").text(name);
         $(".view-company").click(function () {
-            window.location.href = "Assignedcompanies.aspx?uid=" + userid + '&dstatus=1' 
+            window.location.href = "Assignedcompanies.aspx?uid="+ userid + '&dstatus=1' + '&name=' + name
         });
 
         $(".view-poc").click(function () {
-            window.location.href = "poc_list.aspx?uid=" + userid + '&dstatus=1' 
+            window.location.href = "poc_list.aspx?uid="+ userid + '&dstatus=1' + '&name='+name
         });
 
         $(".view-dupdate").click(function () {
-            window.location.href = "daily_updates.aspx?uid=" + userid + '&dstatus=1'
+            window.location.href = "daily_updates.aspx?uid="+ userid + '&dstatus=1' + '&name=' + name
         });
 
         $(".view-momt").click(function () {
-            window.location.href = "mom.aspx?uid=" + userid + '&dstatus=1'
+            window.location.href = "mom.aspx?uid="+ userid + '&dstatus=1' + '&name=' + name
         });
 
         $(".view-todo").click(function () {
-            window.location.href = "TODO_list.aspx?uid=" + userid + '&dstatus=1'
+            window.location.href = "TODO_list.aspx?uid=" + userid + '&dstatus=1' + '&name=' + name
         });
         
     </script>

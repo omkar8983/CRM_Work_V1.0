@@ -18,7 +18,9 @@
             display: none;
             margin-bottom: 0;
         }
-
+        .dropdown-content{
+            display:none!important;
+        }
         .filterwrap {
             background: #fff;
             padding: 1.5%;
@@ -141,6 +143,11 @@
         input[type="date"]{
             line-height:20px;
         }
+        .btnSave{
+            position: absolute;
+    bottom: 0;
+    left: 40%;
+        }
     </style>
 </asp:Content>
 
@@ -247,7 +254,14 @@
                                     <option value="Irrelevant">Irrelevant</option>
                                 </select>
                             </div>
-
+                            <div class="col-md-4 mb-3">
+                                <div class="form-check">
+                                    <label class="form-check-label" for="cdate">
+                                        Completed On
+                                    </label>
+                                    <input id="cdate" name="date" type="date" class="datepicker form-control" required>
+                                </div>
+                            </div>
 
                             <div class="col-md-12 mb-3">
                                 <textarea class="form-control" name="Remark" id="Remark" placeholder="Remark *" cols="0" rows="0" required></textarea>
@@ -301,9 +315,10 @@
                             </div>
                         </form>
 
-                        <div class="momForm mt-3">
+                        <div class="momForm">
                             <form id="myform" autocomplete="off">
-                                <div class="row">
+                                <h5>MOM Details</h5>
+                                <div class="row p-0">
                                     <div class="col-md-4 col-sm-4 ">
                                         <span class="text">Date:</span>
                                         <input id="meeting-date" name="date" type="date" class="datepicker form-control" />
@@ -317,7 +332,7 @@
                                         <input id="outtime" name="time" class="timepicker form-control" type="text" />
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row p-0 mt-3">
                                     <div class="col-md-6 col-sm-6">
                                         <span class="text">Meeting Type:</span>
                                         <select id="meeting-type" class="form-select form-control" aria-label="meeting">
@@ -332,7 +347,7 @@
                                         <input id="ddteam" type="hidden" />
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row p-0 mt-3">
                                     <div class="col-md-6 col-sm-6">
                                         <span class="text">Company Name:</span>
                                         <select name="company-name" id="company-name" class="form-select form-control" aria-label="Company Name">
@@ -342,12 +357,8 @@
 
                                 </div>
 
-                                <div id="client_details">
-                                    <div class="row">
-                                        <div class="col-md-6"><a class="addclientbtn badge">Click here to add new client</a></div>
-                                    </div>
-                                    <div class="form-group cdetails row">
-
+                                <div id="client_details mt-5">
+                                    <div class="form-group cdetails row p-0 mt-4">
                                         <div class="col-md-4 nopadding">
                                             <div class="form-group">
                                                 <!-- <input type="name" class="form-control" id="clientName" name="tp-name[]" value="" placeholder="Client Name" /> -->
@@ -365,7 +376,7 @@
                                         </div>
                                         <div class="col-md-3 nopadding">
                                             <div class="form-group">
-                                                <input type="number" class="form-control clientcontact" id="contactNo-0" name="contactNo[]" value=""
+                                                <input type="text" class="form-control clientcontact" id="contactNo-0" name="contactNo[]" value=""
                                                     placeholder="Contact No" />
                                             </div>
                                         </div>
@@ -387,7 +398,7 @@
                                         <h6>Third party Name</h6>
                                     </div>
                                     <div id="education_fields">
-                                        <div class="form-group-1 formtp row">
+                                        <div class="form-group-1 formtp row p-0">
                                             <div class="col-sm-3 nopadding">
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="tp-name" name="NAME" value="" placeholder="Name" />
@@ -426,7 +437,7 @@
                                     </div>
 
                                     <div id="education">
-                                        <div class="form-group-1 formDiscuss row">
+                                        <div class="form-group-1 formDiscuss row p-0">
                                             <div class="col-sm-6 nopadding-1">
                                                 <div class="form-group-1">
                                                     <span class="text">Description:</span>
@@ -457,9 +468,9 @@
                                     </div>
                                     <div class="clear"></div>
 
-                                    <div class="btn-hero">
+                                    <%--<div class="btn-hero">
                                         <input class="btn-1" type="submit" value="submit" id="btn">
-                                    </div>
+                                    </div>--%>
                                 </div>
                             </form>
                         </div>
@@ -611,7 +622,8 @@
         $("#ddcomapany").change(function () {
             var coid = $(this).find(":selected").val();
             poclist1(coid);
-
+            $("#company-name").val(coid);
+            $("#company-name").trigger("change");
             $("#ddpoc").empty();
             setTimeout(function () {
                 $('#ddpoc').trigger('change');
@@ -679,7 +691,7 @@
             var Remark = $("#Remark").val();
             var time = $("#time").val();
             var date = $("#date").val();
-
+            var cdate = $("#cdate").val();
             var dataobj = {
                 "CID": CID,
                 "ACTIVITY": Activity,
@@ -689,6 +701,7 @@
                 "USER_GUID": getCookies().USER_GUID,
                 "STATUS": "COMPLETED",
                 "DA_TYPE": "TASK",
+                "COMPLETED_ON": cdate,
             };
 
             console.log(dataobj);
@@ -709,6 +722,118 @@
 
                 console.log(response);
                 if (response.message == "Daily Activity added Successfully.") {
+                   //mom start
+                    meeting_date = document.getElementById("meeting-date").value;
+                    var in_time = document.getElementById("intime").value;
+                    var out_time = document.getElementById("outtime").value;
+                    var meeting_type = document.getElementById("meeting-type").value;
+                    company_name = document.getElementById("company-name").value;
+
+                    var fav_clr = $("#ddteam").val();
+                    console.log(fav_clr);
+                    var date_1 = document.getElementById("date").value;
+                    var responsible_1 = document.getElementById("pd-responsible").value;
+
+
+                    var forms = document.querySelectorAll(".formtp");
+                    var data1 = Array.from(forms).map(a => {
+                        obj = {};
+                        Array.from(a.querySelectorAll("[name]")).forEach(b => {
+                            obj[b.getAttribute("name")] = b.value;
+                        });
+                        return obj;
+
+                    });
+
+
+                    console.log(data1);
+
+                    var forms1 = document.querySelectorAll(".formDiscuss ");
+                    data2 = Array.from(forms1).map(a => {
+                        obj = {};
+                        Array.from(a.querySelectorAll("[name]")).forEach(b => {
+                            obj[b.getAttribute("name")] = b.value;
+                        });
+                        return obj;
+
+                    });
+                    console.log(data2)
+
+                    var data3 = $(".cdetails .clientd").map(function () {
+                        return this.value;
+                    }).get().join(",");
+                    console.log(data3)
+
+                    let data = {
+                        MNAME: "Meeting minutes",
+                        INTERNAL_TEAM_LIST: fav_clr,
+                        MDATE: meeting_date,
+                        START_TIME: in_time,
+                        END_TIME: out_time,
+                        MTYPE: meeting_type,
+                        C_GUID: company_name,
+                        COMPANY_POC_LIST: data3,
+                        MOM_POINT_DISCUSSED: data2,
+                        MOM_THIRDPARTY_MAPPING: data1,
+                        CREATED_BY: uid
+
+                    };
+                    console.log(data);
+                    console.log(JSON.stringify(data));
+                    $("#div_data").html(JSON.stringify(data));
+                    // ****************************************
+                    $(".meeting-date").html(meeting_date);
+                    $(".in-time").html(in_time);
+                    $(".end-time").html(out_time);
+                    $(".meeting-type").html(meeting_type);
+                    $(".company-name").html(company_name);
+                    // $(".client-contact-name ").html(client_name);
+                    //$(".address").html(add);
+                    $(".team-member").html(tfdteam);
+
+
+                    var settings = {
+                        "url": "https://crmapi.24fd.com/MOM/post_MOM",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify(
+                            data
+                        ),
+                    };
+
+                    var role = getCookies().ROLE_ID;
+
+                    if (role == "28b18abb-2096-ed11-82dd-02cdc8b1cf2e") {
+                        obj1 =
+                        {
+                            "CREATED_BY": uid
+                        }
+                    }
+
+                    else {
+                        obj1 =
+                        {
+                            "CREATED_BY": "ALL"
+                        }
+                    }
+                    $.ajax(settings).done(function (response) {
+                        console.log(response);
+                        if (response.message == "Comapny Mapped Successfully.") {
+                            toastr.success('MOM added Successfully.', 'MOM Added');
+                        }
+                        else {
+                            toastr.error('Something went wrong. Please try again!.', 'Error')
+                            console.log(response);
+                        }
+                        //mom end
+                    });
+
+
+
+
 
                     if ($("#chkhid").val() == '1') {
 
@@ -939,7 +1064,7 @@
 
 
                         $('#usertable tbody').on("click", '.viewmom', function (e) {
-                        window.open('MOM.aspx');
+                            window.location.href = 'MOM.aspx';
                     });
 
 
